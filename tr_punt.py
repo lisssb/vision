@@ -8,7 +8,9 @@ import cv2
 
 
 img = mpimg.imread('escilum.tif')
+im = Image.open('escilum.tif')
 counts, bins, bars = plt.hist(img.flatten(), bins=300, normed=True)
+
 
 #plt.imshow(img, cmap=cm.Greys_r)
 
@@ -41,13 +43,28 @@ def tr_punt(hist, input_range=[], output_range=[]):
             result.append( (i-input_range[0]) * output_range[1]/(input_range[1] - input_range[0]) )
     return result
 
+
 r = tr_punt(bins, [51, 150], [0, 255])
 plt.clf()
 plt.title('Histogram of escilum')
 plt.grid(True)
-print r
-t = plt.hist(r,  bins=150, color='blue', normed=True)
-
-plt.show()
-#plt.imshow(img, cmap=cm.Greys_r)
+plt.hist(r,  bins=150, color='blue', normed=True)
+plt.clf()
 #plt.show()
+
+def ver (i):
+    if i < 51:
+        p =  0
+    elif i > 150:
+        p =  255
+    else:
+        p =  ((i-51) * 255)/(150 - 51)
+    return p
+
+tt = im.point(ver)
+tt.save("contraste-10.tif")
+plt.hist(np.asarray(tt).flatten(), bins=150, color='green', normed=True)
+
+
+#plt.imshow(img, cmap=cm.Greys_r)
+plt.show()
