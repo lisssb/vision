@@ -5,14 +5,41 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import matplotlib.cm as cm
 import cv2
+from scipy.misc import imread
+
+###Primera parte
 
 
-img = mpimg.imread('escilum.tif')
-im = Image.open('escilum.tif')
-counts, bins, bars = plt.hist(img.flatten(), bins=300, normed=True)
+def first():
+    img = mpimg.imread('escilum.tif')
+    counts, bins, bars = plt.hist(img.flatten(), 255, normed=True, color='red')
+    plt.show()
 
 
-#plt.imshow(img, cmap=cm.Greys_r)
+def second():
+    def tr_punt(im, input_range=[], output_range=[]):
+        img = Image.open(im).convert("L")
+        if len(input_range) != 2 or len(output_range) != 2:
+            print "The input_range and the output_range must be specified and its length must be 2"
+            return
+
+        def change_pixel (i):
+            if i < input_range[0]:
+                value = 0
+            elif i > input_range[1]:
+                value = 255
+            else:
+                value = (i-input_range[0]) * output_range[1]/(input_range[1] - input_range[0])
+            return value
+
+        result = img.point(change_pixel)
+        result.save('second.png')
+        plt.hist(imread('second.png').flatten(), bins=255, color='yellow', range=(0, 255))
+        plt.show()
+
+    result = tr_punt('escilum.tif', [51, 150], [0,255])
+
+
 
 
 
@@ -27,44 +54,3 @@ counts, bins, bars = plt.hist(img.flatten(), bins=300, normed=True)
 
 #print bins
 #plt.show()
-
-def tr_punt(hist, input_range=[], output_range=[]):
-    if len(input_range) != 2 or len(output_range) != 2:
-        print "The input_range and the output_range must be specified and its length must be 2"
-        return
-
-    result = []
-    for i in hist:
-        if i < input_range[0]:
-            result.append(0)
-        elif i > input_range[1]:
-            result.append(255)
-        else:
-            result.append( (i-input_range[0]) * output_range[1]/(input_range[1] - input_range[0]) )
-    return result
-
-
-r = tr_punt(bins, [51, 150], [0, 255])
-plt.clf()
-plt.title('Histogram of escilum')
-plt.grid(True)
-plt.hist(r,  bins=150, color='blue', normed=True)
-plt.clf()
-#plt.show()
-
-def ver (i):
-    if i < 51:
-        p =  0
-    elif i > 150:
-        p =  255
-    else:
-        p =  ((i-51) * 255)/(150 - 51)
-    return p
-
-tt = im.point(ver)
-tt.save("contraste-10.tif")
-plt.hist(np.asarray(tt).flatten(), bins=150, color='green', normed=True)
-
-
-#plt.imshow(img, cmap=cm.Greys_r)
-plt.show()

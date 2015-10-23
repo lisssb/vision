@@ -7,19 +7,26 @@ import cv2
 import operator
 
 
-imagen = Image.open('escilum.tif')
-ecualizada = ImageOps.equalize(imagen)
-ecualizada.show()
-ecualizada.save("ecualizada.jpg")
-
-
-#img = cv2.imread('escilum.tif',0)
+#img = cv2.imread('escilum.tif', 0)
 #print img
-#equ = cv2.equalizeHist(img)
-#print equ
-#res = np.hstack((img,equ)) #stacking images side-by-side
-#print res
-#cv2.imwrite('res.png',res)
+#hist = cv2.calcHist([img],[0],None,[256],[0,256])
+#print hist
+
+#imagen = Image.open('escilum.tif')
+#ecualizada = ImageOps.equalize(imagen)
+#ecualizada.show()
+#print np.asarray(ecualizada).flatten()
+#plt.hist(np.asarray(ecualizada).flatten(), bins=255, color='yellow', range=(0, 255)) #range(0, 255)
+#plt.show()
+
+#ecualizada.save("ecualizada.jpg")
+
+
+img = cv2.imread('escilum.tif',0)
+equ = cv2.equalizeHist(img)
+res = np.hstack((img,equ)) #stacking images side-by-side
+print 'eq', equ
+cv2.imwrite('res.png',res)
 
 
 
