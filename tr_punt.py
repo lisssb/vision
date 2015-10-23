@@ -7,6 +7,7 @@ import matplotlib.cm as cm
 import cv2
 from scipy.misc import imread
 
+
 ###Primera parte
 
 
@@ -40,17 +41,18 @@ def second():
     result = tr_punt('escilum.tif', [51, 150], [0,255])
 
 
+def third():
+    img = mpimg.imread('escilum.tif')
 
+    hist, bins, b = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
+    cdf = hist.cumsum() #cumulative distribution function
+    cdf = 255 * cdf / cdf[-1] #normalize
 
+    im2 = np.interp(img.flatten(), bins[:-1], cdf)
 
-#b = img[...,0]  # blue channel
-#g = img[...,1]  # green channel
-#r = img[...,2]  # red channel
-#plt.hist(b, bins=100, normed=True, histtype='step')
-#plt.hist(g, bins=100, normed=True, histtype='step')
-#plt.hist(r, bins=100, normed=True, histtype='step')
+    res_img = im2.reshape(img.shape)
 
+    img = Image.fromarray(res_img.astype(np.uint8))
+    img.save('third.png')
 
-
-#print bins
-#plt.show()
+third()
