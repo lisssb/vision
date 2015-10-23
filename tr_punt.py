@@ -18,27 +18,31 @@ def first():
 
 
 def second():
-    def tr_punt(im, input_range=[], output_range=[]):
-        img = Image.open(im).convert("L")
+    def tr_punt(hist, input_range=[], output_range=[]):
         if len(input_range) != 2 or len(output_range) != 2:
             print "The input_range and the output_range must be specified and its length must be 2"
             return
 
-        def change_pixel (i):
+        result = [];
+        for i in hist:
             if i < input_range[0]:
                 value = 0
             elif i > input_range[1]:
                 value = 255
             else:
                 value = (i-input_range[0]) * output_range[1]/(input_range[1] - input_range[0])
-            return value
+            result.append(value)
+        return result
 
-        result = img.point(change_pixel)
-        result.save('second.png')
-        plt.hist(imread('second.png').flatten(), bins=255, color='yellow', range=(0, 255))
-        plt.show()
 
-    result = tr_punt('escilum.tif', [51, 150], [0,255])
+
+    img = mpimg.imread('escilum.tif')
+    hist, binds, c = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
+    result = tr_punt(binds, [51, 150], [0,255])
+    im2 = np.interp(img.flatten(), binds ,result)
+    res_img = im2.reshape(img.shape)
+    img = Image.fromarray(res_img.astype(np.uint8))
+    img.save('second.png')
 
 
 def third():
@@ -55,4 +59,5 @@ def third():
     img = Image.fromarray(res_img.astype(np.uint8))
     img.save('third.png')
 
+second()
 third()
