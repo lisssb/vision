@@ -12,7 +12,7 @@ from scipy.misc import imread
 
 
 def first():
-    img = mpimg.imread('escilum.tif')
+    img = mpimg.imread('imagenes/escilum.tif')
     counts, bins, bars = plt.hist(img.flatten(), 255, normed=True, color='red')
     plt.show()
 
@@ -34,13 +34,13 @@ def second():
             result.append(value)
         return result
 
-    img = mpimg.imread('escilum.tif')
+    img = mpimg.imread('imagenes/escilum.tif')
     hist, binds, c = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
     result = tr_punt(binds, [51, 150], [0,255])
     im2 = np.interp(img.flatten(), binds ,result)
     res_img = im2.reshape(img.shape)
     img = Image.fromarray(res_img.astype(np.uint8))
-    img.save('second.png')
+    img.save('resultados/second.png')
 
     plt.clf()
     plt.hist(result, bins=255, color='yellow', range=(0,255))
@@ -48,7 +48,7 @@ def second():
 
 
 def third():
-    img = mpimg.imread('escilum.tif')
+    img = mpimg.imread('imagenes/escilum.tif')
 
     hist, bins, b = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
     cdf = hist.cumsum() #cumulative distribution function
@@ -59,45 +59,45 @@ def third():
     res_img = im2.reshape(img.shape)
 
     img = Image.fromarray(res_img.astype(np.uint8))
-    img.save('third.png')
+    img.save('resultados/third.png')
     plt.clf()
 
     plt.hist(cdf, bins=255, color='yellow', range=(0,255))
     plt.show()
-
-def eq_hist_quad(N, M):
-    img = imread('escilum.tif')
-    mid_value = round(M*N/2)
-    in_ = 0
-    for i in range(1, M):
-        for j in range(1, N):
-            in_ += 1
-            if(in_ == mid_val):
-                padM = i -1
-                padN = j -1
-                break
-    print mid_val
-    #padarray
-    B = np.pad(img, [padM, padN])
-    for i in range(1, size(B, 1) - (padM*2)+1):
-        cdf = [0] * 256
-        inc = 1
-        for x in range(1, M):
-            for y in range(1,N):
-                #finde the middle element in the WINDOW
-                if(inc == mid_val):
-                    ele=B(i+x-1,j+y-1)+1
-
-                pos=B(i+x-1,j+y-1)+1
-                cdf[pos]=cdf[pos]+1
-                inc=inc+1
-        for l in range (2, 256):
-            cdf[l] = cdf[l] + cdf[l-1]
-
-        Img(i, j) = round(cdf[ele])/(M*N)*255
+#
+# def eq_hist_quad(N, M):
+#     img = imread('imagenes/escilum.tif')
+#     mid_value = round(M*N/2)
+#     in_ = 0
+#     for i in range(1, M):
+#         for j in range(1, N):
+#             in_ += 1
+#             if(in_ == mid_val):
+#                 padM = i -1
+#                 padN = j -1
+#                 break
+#     print mid_val
+#     #padarray
+#     B = np.pad(img, [padM, padN])
+#     for i in range(1, size(B, 1) - (padM*2)+1):
+#         cdf = [0] * 256
+#         inc = 1
+#         for x in range(1, M):
+#             for y in range(1,N):
+#                 #finde the middle element in the WINDOW
+#                 if(inc == mid_val):
+#                     ele=B(i+x-1,j+y-1)+1
+#
+#                 pos=B(i+x-1,j+y-1)+1
+#                 cdf[pos]=cdf[pos]+1
+#                 inc=inc+1
+#         for l in range (2, 256):
+#             cdf[l] = cdf[l] + cdf[l-1]
+#
+#         Img(i, j) = round(cdf[ele])/(M*N)*255
 
 # def eq_hist_quad():
-#     img = cv2.imread('escilum.tif',0)
+#     img = cv2.imread('imagenes/escilum.tif',0)
 #
 #     # create a CLAHE object (Arguments are optional).
 #     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
@@ -105,7 +105,7 @@ def eq_hist_quad(N, M):
 #
 #     cv2.imwrite('clahe_2.jpg',cl1)
 
-eq_hist_quad(3,3)
-# first()
-# second()
-#third()
+
+first()
+second()
+third()
