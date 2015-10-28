@@ -64,38 +64,19 @@ def third():
 
     plt.hist(cdf, bins=255, color='yellow', range=(0,255))
     plt.show()
-#
-# def eq_hist_quad(N, M):
-#     img = imread('imagenes/escilum.tif')
-#     mid_value = round(M*N/2)
-#     in_ = 0
-#     for i in range(1, M):
-#         for j in range(1, N):
-#             in_ += 1
-#             if(in_ == mid_val):
-#                 padM = i -1
-#                 padN = j -1
-#                 break
-#     print mid_val
-#     #padarray
-#     B = np.pad(img, [padM, padN])
-#     for i in range(1, size(B, 1) - (padM*2)+1):
-#         cdf = [0] * 256
-#         inc = 1
-#         for x in range(1, M):
-#             for y in range(1,N):
-#                 #finde the middle element in the WINDOW
-#                 if(inc == mid_val):
-#                     ele=B(i+x-1,j+y-1)+1
-#
-#                 pos=B(i+x-1,j+y-1)+1
-#                 cdf[pos]=cdf[pos]+1
-#                 inc=inc+1
-#         for l in range (2, 256):
-#             cdf[l] = cdf[l] + cdf[l-1]
-#
-#         Img(i, j) = round(cdf[ele])/(M*N)*255
 
+def eq_hist_quad(N, M):
+    img = imread('imagenes/escilum.tif')
+    im = Image.open('imagenes/car.jpg').convert('L')
+    size = im.size
+    row = size[1]
+    col = size[0]
+    hist, bins, b = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
+
+
+
+eq_hist_quad(3,4)
+#
 # def eq_hist_quad():
 #     img = cv2.imread('imagenes/escilum.tif',0)
 #
@@ -104,8 +85,8 @@ def third():
 #     cl1 = clahe.apply(img)
 #
 #     cv2.imwrite('clahe_2.jpg',cl1)
-
-
-first()
-second()
-third()
+#
+#
+# first()
+# second()
+# third()
