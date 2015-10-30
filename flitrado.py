@@ -11,6 +11,22 @@ from array import array
 import math
 import timeit
 
+
+def mediana(im, n):
+    med = int(n/2)
+    img = imread(im, True)
+    def ver (a):
+        b = np.sort(a)
+        return b[med]
+
+    result = ndimage.generic_filter(img, ver, n)
+    resultado = Image.fromarray(result.astype(np.uint8))
+    resultado.save('resultados/mediana.bmp')
+
+
+
+mediana('imagenes/escgaus.bmp', 7)
+
 def caja_convolve1(n, m):
     img = imread('imagenes/escgaus.bmp', True)
     result = np.ones(n)
@@ -18,7 +34,7 @@ def caja_convolve1(n, m):
     result = ndimage.convolve1d(img, result, mode='constant', cval=1.0)
     resultado = Image.fromarray(result.astype(np.uint8))
     resultado.save('resultados/caja_convolve1.bmp')
-    
+
 
 def caja(n, m):
     img = imread('imagenes/escgaus.bmp', True)
@@ -100,9 +116,9 @@ def seven():
 # caja(5,5)
 # caja_convolve1(5,5)
 
-if __name__=='__main__':
-    from timeit import Timer
-    t1 = Timer("caja(3,3)", "from __main__ import caja")
-    t2 = Timer("caja_convolve1(3,3)", "from __main__ import caja_convolve1")
-    print(t1.timeit(1), "caja")
-    print(t2.timeit(1), "1d")
+# if __name__=='__main__':
+#     from timeit import Timer
+#     t1 = Timer("caja(3,3)", "from __main__ import caja")
+#     t2 = Timer("caja_convolve1(3,3)", "from __main__ import caja_convolve1")
+#     print(t1.timeit(1), "caja")
+#     print(t2.timeit(1), "1d")
