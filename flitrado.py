@@ -12,6 +12,7 @@ import math
 import timeit
 
 
+
 def mediana(im, n):
     med = int(n/2)
     img = imread(im, True)
@@ -23,9 +24,15 @@ def mediana(im, n):
     resultado = Image.fromarray(result.astype(np.uint8))
     resultado.save('resultados/mediana.bmp')
 
+def bilateral(im):
+    img = imread(im, True)
+    # res = np.ones(img.size)
+    result = cv2.bilateralFilter(img, 9,75,75)
+    resultado = Image.fromarray(result.astype(np.uint8))
+    resultado.save('resultados/bilateral.bmp')
 
-
-mediana('imagenes/escgaus.bmp', 7)
+bilateral('imagenes/escgaus.bmp')
+# mediana('imagenes/escgaus.bmp', 7)
 
 def caja_convolve1(n, m):
     img = imread('imagenes/escgaus.bmp', True)
