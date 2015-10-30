@@ -12,27 +12,11 @@ from array import array
 def caja(n, m):
     img = mpimg.imread('imagenes/escgaus.bmp', True)
     im = Image.open("imagenes/escgaus.bmp")
-    w = im.size[0];
-    h = im.size[1];
-
-    med = (n - 1) / 2;
-    current = 0;
-    result = np.zeros((h,w))
-
-    for i in range(med, w-med):
-        for j in range (med, h-med):
-            for t in range (1, med+1):
-                for k in range (1, med+1):
-                    current += float(img[i-t][j-k]) + float(img[i-t][j+k])
-                    current += float(img[i][j-k]) + float(img[i][j+k])
-                    current += float(img[i+t][j]) + float(img[i-t][j])
-                    current += float(img[i+t][j-k]) + float(img[i+t][j+k])
-            current += float(img[i][j])
-            result[i][j] = current/(n*n)
-            current = 0
-
+    result = np.ones((n,n))
+    result =  result /(n*n)
+    result = ndimage.convolve(img, result, mode='constant', cval=1.0)
     resultado = Image.fromarray(result.astype(np.uint8))
     resultado.save('resultados/t.bmp')
 
 
-caja(3,3)
+caja(5,5)
