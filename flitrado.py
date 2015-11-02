@@ -21,16 +21,15 @@ def caja(n, m, imgName, newImgName):
     resultado = Image.fromarray(result.astype(np.uint8))
     resultado.save(newImgName)
 
-def mediana(im, n):
-    med = int(n/2)
-    img = imread(im, True)
-    def ver (a):
+def mediana(imgName, n):
+    med = int(n*n/2)
+    img = imread(imgName, True)
+    def mediana_aux (a):
         b = np.sort(a)
         return b[med]
-
-    result = ndimage.generic_filter(img, ver, n)
+    result = ndimage.generic_filter(img, mediana_aux, n)
     resultado = Image.fromarray(result.astype(np.uint8))
-    resultado.save('resultados/mediana.bmp')
+    return resultado;
 
 def bilateral(im):
     img = imread(im, True)
@@ -52,16 +51,15 @@ def caja_convolve1(n, m):
 
 
 
-
-
 def ex(x, n, sigma):
     return math.exp( (-1/2) * ( (x-((n-1)/2))/ sigma)**2 )
-
-def gaus(sigma_1, sigma_2, n, m):
-    img = imread('imagenes/escimp5.bmp', True)
+## Filtro gausiano
+def gaus(sigma_1, sigma_2, n, m, imgName, newImgName):
+    img = imread(imgName, True)
     ac = 0
-    rx = np.ones((1,n))
-    ry = np.ones((m,1))
+    rx = np.ones((1,n));
+    ry = np.ones((m, 1));
+
 
     for i in range(0, n):
         ac += ex(i, n, sigma_1)
@@ -72,18 +70,14 @@ def gaus(sigma_1, sigma_2, n, m):
         ac += ex(i, m, sigma_2)
         ry[i][0] = ex(i, m, sigma_2) * ac**(-1)
 
-    t = rx*ry
+    t = rx * ry;
     t = t/ np.sum(t)
 
     result = ndimage.convolve(img, t, mode='constant', cval=1.0)
     resultado = Image.fromarray(result.astype(np.uint8))
-    resultado.save('resultados/ver.bmp')
+    resultado.save(newImgName)
 
-    #
-    #
-    # p = ndimage.gaussian_filter(img, (1,2))
-    # resultado = Image.fromarray(p.astype(np.uint8))
-    # resultado.save('resultados/4444444444444.bmp')
+
 
 def seven():
     n = 7
@@ -134,14 +128,73 @@ def seven():
 
 
 def main():
+
+    mediana('imagenes/checker.bmp', 2).save('resultados/checker_mediana2.bmp')
+    mediana('imagenes/checker.bmp', 3).save('resultados/checker_mediana3.bmp')
+    mediana('imagenes/checker.bmp', 5).save('resultados/checker_mediana5.bmp')
+    mediana('imagenes/checker.bmp', 7).save('resultados/checker_mediana7.bmp')
+    mediana('imagenes/checker.bmp', 9).save('resultados/checker_mediana9.bmp')
+
+    mediana('imagenes/escimp5.bmp', 2).save('resultados/escimp5_mediana2.bmp')
+    mediana('imagenes/escimp5.bmp', 3).save('resultados/escimp5_mediana3.bmp')
+    mediana('imagenes/escimp5.bmp', 5).save('resultados/escimp5_mediana5.bmp')
+    mediana('imagenes/escimp5.bmp', 7).save('resultados/escimp5_mediana7.bmp')
+    mediana('imagenes/escimp5.bmp', 9).save('resultados/escimp5_mediana9.bmp')
+
+    mediana('imagenes/escgaus.bmp', 2).save('resultados/escgaus_mediana2.bmp')
+    mediana('imagenes/escgaus.bmp', 3).save('resultados/escgaus_mediana3.bmp')
+    mediana('imagenes/escgaus.bmp', 5).save('resultados/escgaus_mediana5.bmp')
+    mediana('imagenes/escgaus.bmp', 7).save('resultados/escgaus_mediana7.bmp')
+    mediana('imagenes/escgaus.bmp', 9).save('resultados/escgaus_mediana9.bmp')
+
+
+    # img1 = imread('imagenes/checker.bmp', True);
+    # gaus(6,6,30,30, 'imagenes/checker.bmp', 'resultados/checker_gaus30.bmp');
+    # caja(30,30, 'imagenes/checker.bmp', 'resultados/checker_caja30.bmp');
+    # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 6).astype(np.uint8))
+    # resultado.save('resultados/cheker_gausiana30.bmp')
+    # gaus(1, 1, 5, 5, 'imagenes/escgaus.bmp', 'resultados/escgaus_gaus_5.bmp');
+    # gaus(1.4, 1.4, 7, 7, 'imagenes/escgaus.bmp', 'resultados/escgaus_gaus_7.bmp');
+    # gaus(1.8, 1.8, 9, 9, 'imagenes/escgaus.bmp', 'resultados/escgaus_gaus_9.bmp');
+    # gaus(2.2, 2.2, 11, 11, 'imagenes/escgaus.bmp', 'resultados/escgaus_gaus_11.bmp');
+    # gaus(0.6, 0.6, 3,3, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_3.bmp');
+    # gaus(1, 1, 5, 5, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_5.bmp');
+    # gaus(1.4, 1.4, 7, 7, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_7.bmp');
+    # gaus(1.8, 1.8, 9, 9, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_9.bmp');
+    # gaus(2.2, 2.2, 11, 11, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_11.bmp');
     # caja(3,3, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_3.bmp');
     # caja(5, 5, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_5.bmp');
     # caja(7, 7, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_7.bmp');
     # caja(9, 9, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_9.bmp');
     # caja(11, 11, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_11.bmp');
-    caja(3,3, 'imagenes/escimp5.bmp', 'resultados/escimp5.bmp_caja_3.bmp');
-    caja(5, 5, 'imagenes/escimp5.bmp', 'resultados/escimp5.bmp_caja_5.bmp');
-    caja(7, 7, 'imagenes/escimp5.bmp', 'resultados/escimp5.bmp_caja_7.bmp');
-    caja(9, 9, 'imagenes/escimp5.bmp', 'resultados/escimp5.bmp_caja_9.bmp');
-    caja(11, 11, 'imagenes/escimp5.bmp', 'resultados/escimp5.bmp_caja_11.bmp');
+    # caja(3,3, 'imagenes/escimp5.bmp', 'resultados/escimp5_caja_3.bmp');
+    # caja(5, 5, 'imagenes/escimp5.bmp', 'resultados/escimp5_caja_5.bmp');
+    # caja(7, 7, 'imagenes/escimp5.bmp', 'resultados/escimp5_caja_7.bmp');
+    # caja(9, 9, 'imagenes/escimp5.bmp', 'resultados/escimp5_caja_9.bmp');
+    # caja(11, 11, 'imagenes/escimp5.bmp', 'resultados/escimp5_caja_11.bmp');
+    # img1 = imread('imagenes/escimp5.bmp', True);
+    # img2 = imread('imagenes/escgaus.bmp', True);
+    # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 3).astype(np.uint8))
+    # resultado.save('resultados/gaus1.bmp')
+    # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 5).astype(np.uint8))
+    # resultado.save('resultados/gaus5.bmp')
+    # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 7).astype(np.uint8))
+    # resultado.save('resultados/gaus7.bmp')
+    # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 9).astype(np.uint8))
+    # resultado.save('resultados/gaus9.bmp')
+    # resultado = Image.fromarray(ndimage.gaussian_filter(img1,11).astype(np.uint8))
+    # resultado.save('resultados/gaus11.bmp')
+    #
+    #
+    #
+
+    # resultado = Image.fromarray(ndimage.gaussian_filter(img2, 5).astype(np.uint8))
+    # resultado.save('resultados/gausx5.bmp')
+    # resultado = Image.fromarray(ndimage.gaussian_filter(img2, 7).astype(np.uint8))
+    # resultado.save('resultados/gausx7.bmp')
+    # resultado = Image.fromarray(ndimage.gaussian_filter(img2, 9).astype(np.uint8))
+    # resultado.save('resultados/gausx9.bmp')
+    # resultado = Image.fromarray(ndimage.gaussian_filter(img2,11).astype(np.uint8))
+    # resultado.save('resultados/gausx11.bmp')
+
 main();
