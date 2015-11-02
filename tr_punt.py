@@ -17,35 +17,45 @@ def histogram(img_file):
     plt.show();
 
 
-def second():
-    def tr_punt(hist, input_range=[], output_range=[]):
-        if len(input_range) != 2 or len(output_range) != 2:
-            print "The input_range and the output_range must be specified and its length must be 2"
-            return
+##
+# @param{hist}  an image's histogram
+# @param{input_range}
+# @param{output_range}
+# This methods change and histogram range for other giveb
+def tr_punt(hist, input_range=[], output_range=[]):
+    if len(input_range) != 2 or len(output_range) != 2:
+        print "The input_range and the output_range must be specified and its length must be 2"
+        return
 
-        result = [];
-        for i in hist:
-            if i < input_range[0]:
-                value = 0
-            elif i > input_range[1]:
-                value = 255
-            else:
-                value = (i-input_range[0]) * output_range[1]/(input_range[1] - input_range[0])
-            result.append(value)
-        return result
+    result = [];
+    for i in hist:
+        if i < input_range[0]:
+            value = 0
+        elif i > input_range[1]:
+            value = 255
+        else:
+            value = (i-input_range[0]) * output_range[1]/(input_range[1] - input_range[0])
+        result.append(value)
+    return result
 
-    img = mpimg.imread('imagenes/escilum.tif')
-    hist, binds, c = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
-    result = tr_punt(binds, [51, 150], [0,255])
-    im2 = np.interp(img.flatten(), binds ,result)
-    res_img = im2.reshape(img.shape)
-    img = Image.fromarray(res_img.astype(np.uint8))
-    img.save('resultados/second.png')
+
+def problem_2(imgName, new_img):
+    img = mpimg.imread(imgName);
+    hist, binds, c = plt.hist(img.flatten(), bins=255, range=(0, 255));
+
+    #change histogram range
+    result = tr_punt(binds, [51, 150], [0,255]);
+
+    #create a new image after changed its histogram values.
+    im2 = np.interp(img.flatten(), binds ,result);
+    res_img = im2.reshape(img.shape);
+    img = Image.fromarray(res_img.astype(np.uint8));
+    img.save(new_img);
 
     plt.clf()
+    #show new histogram
     plt.hist(result, bins=255, color='yellow', range=(0,255))
     plt.show()
-
 
 def third():
     img = mpimg.imread('imagenes/escilum.tif')
@@ -62,7 +72,7 @@ def third():
     img.save('resultados/third.png')
     plt.clf()
 
-    plt.hist(cdf, bins=255, color='yellow', range=(0,255))
+    plt.hist(cdf, bins=255, color='yellow', normed= True, range=(0,255))
     plt.show()
 
 def eq_hist_quad(N, M):
@@ -74,4 +84,5 @@ def eq_hist_quad(N, M):
     hist, bins, b = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
 
 
-histogram('imagenes/escilum.tif')
+#histogram('imagenes/escilum.tif')
+problem_2('imagenes/escilum.tif', 'resultados/problem_2.png');
