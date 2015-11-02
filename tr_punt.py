@@ -9,8 +9,6 @@ from scipy.misc import imread
 
 
 ###Primera parte
-
-
 def histogram(img_file):
     img = mpimg.imread(img_file, True);
     counts, bins, bars = plt.hist(img.flatten(), bins=255, color='gray', range=(0, 255));
@@ -57,32 +55,39 @@ def problem_2(imgName, new_img):
     plt.hist(result, bins=255, color='yellow', range=(0,255))
     plt.show()
 
-def third():
-    img = mpimg.imread('imagenes/escilum.tif')
 
-    hist, bins, b = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
-    cdf = hist.cumsum() #cumulative distribution function
-    cdf = 255 * cdf / cdf[-1] #normalize
 
+def eq_hist(hist):
+    cdf = hist.cumsum(); # cumulative distribution function
+    cdf = 255 * cdf / cdf[-1]; # normalize the value
+    return cdf;
+
+def third(imgName, newImgName):
+    img = mpimg.imread(imgName, True);
+    hist, bins, b = plt.hist(img.flatten(), bins=255, range=(0, 255));
+    cdf = eq_hist(hist);
+
+    # create the new image
     im2 = np.interp(img.flatten(), bins[:-1], cdf)
-
     res_img = im2.reshape(img.shape)
-
     img = Image.fromarray(res_img.astype(np.uint8))
-    img.save('resultados/third.png')
+    img.save(newImgName)
     plt.clf()
 
-    plt.hist(cdf, bins=255, color='yellow', normed= True, range=(0,255))
+    # show the new histogram
+    plt.hist(cdf, bins=255, color='green', normed= True, range=(0,255))
     plt.show()
 
-def eq_hist_quad(N, M):
-    img = imread('imagenes/escilum.tif')
-    im = Image.open('imagenes/car.jpg').convert('L')
-    size = im.size
-    row = size[1]
-    col = size[0]
-    hist, bins, b = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
+# def eq_hist_quad(N, M):
+#     img = imread('imagenes/escilum.tif')
+#     im = Image.open('imagenes/car.jpg').convert('L')
+#     size = im.size
+#     row = size[1]
+#     col = size[0]
+#     hist, bins, b = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
 
 
 #histogram('imagenes/escilum.tif')
-problem_2('imagenes/escilum.tif', 'resultados/problem_2.png');
+# problem_2('imagenes/escilum.tif', 'resultados/problem_2.png');
+# third('imagenes/escilum.tif', 'resultados/problem_3.png');
+# third('resultados/problem_3_bis.png', 'resultados/problem_3_bis2.png');
