@@ -13,6 +13,14 @@ import timeit
 
 
 
+def caja(n, m, imgName, newImgName):
+    img = imread(imgName, True);
+    result = np.ones((n,m))
+    result =  result /(n*m)
+    result = ndimage.convolve(img, result, mode='constant', cval=1.0)
+    resultado = Image.fromarray(result.astype(np.uint8))
+    resultado.save(newImgName)
+
 def mediana(im, n):
     med = int(n/2)
     img = imread(im, True)
@@ -31,7 +39,7 @@ def bilateral(im):
     resultado = Image.fromarray(result.astype(np.uint8))
     resultado.save('resultados/bilateral.bmp')
 
-bilateral('imagenes/escgaus.bmp')
+# bilateral('imagenes/escgaus.bmp')
 # mediana('imagenes/escgaus.bmp', 7)
 
 def caja_convolve1(n, m):
@@ -43,13 +51,7 @@ def caja_convolve1(n, m):
     resultado.save('resultados/caja_convolve1.bmp')
 
 
-def caja(n, m):
-    img = imread('imagenes/escgaus.bmp', True)
-    result = np.ones((n,m))
-    result =  result /(n*m)
-    result = ndimage.convolve(img, result, mode='constant', cval=1.0)
-    resultado = Image.fromarray(result.astype(np.uint8))
-    resultado.save('resultados/caja.bmp')
+
 
 
 def ex(x, n, sigma):
@@ -129,3 +131,17 @@ def seven():
 #     t2 = Timer("caja_convolve1(3,3)", "from __main__ import caja_convolve1")
 #     print(t1.timeit(1), "caja")
 #     print(t2.timeit(1), "1d")
+
+
+def main():
+    # caja(3,3, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_3.bmp');
+    # caja(5, 5, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_5.bmp');
+    # caja(7, 7, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_7.bmp');
+    # caja(9, 9, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_9.bmp');
+    # caja(11, 11, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_11.bmp');
+    caja(3,3, 'imagenes/escimp5.bmp', 'resultados/escimp5.bmp_caja_3.bmp');
+    caja(5, 5, 'imagenes/escimp5.bmp', 'resultados/escimp5.bmp_caja_5.bmp');
+    caja(7, 7, 'imagenes/escimp5.bmp', 'resultados/escimp5.bmp_caja_7.bmp');
+    caja(9, 9, 'imagenes/escimp5.bmp', 'resultados/escimp5.bmp_caja_9.bmp');
+    caja(11, 11, 'imagenes/escimp5.bmp', 'resultados/escimp5.bmp_caja_11.bmp');
+main();
