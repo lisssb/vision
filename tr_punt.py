@@ -11,10 +11,10 @@ from scipy.misc import imread
 ###Primera parte
 
 
-def first():
-    img = mpimg.imread('imagenes/escilum.tif')
-    counts, bins, bars = plt.hist(img.flatten(), 255, normed=True, color='red')
-    plt.show()
+def histogram(img_file):
+    img = mpimg.imread(img_file, True);
+    counts, bins, bars = plt.hist(img.flatten(), bins=255, color='gray', range=(0, 255));
+    plt.show();
 
 
 def second():
@@ -74,19 +74,4 @@ def eq_hist_quad(N, M):
     hist, bins, b = plt.hist(img.flatten(), bins=255, color='yellow', range=(0, 255))
 
 
-
-eq_hist_quad(3,4)
-#
-# def eq_hist_quad():
-#     img = cv2.imread('imagenes/escilum.tif',0)
-#
-#     # create a CLAHE object (Arguments are optional).
-#     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
-#     cl1 = clahe.apply(img)
-#
-#     cv2.imwrite('clahe_2.jpg',cl1)
-#
-#
-# first()
-# second()
-# third()
+histogram('imagenes/escilum.tif')
