@@ -31,12 +31,12 @@ def mediana(imgName, n):
     resultado = Image.fromarray(result.astype(np.uint8))
     return resultado;
 
-def bilateral(im):
-    img = imread(im, True)
+def bilateral(im, n, sigmaColor, sigmaSpace):
+    img = imread(im)
     # res = np.ones(img.size)
-    result = cv2.bilateralFilter(img, 9,75,75)
+    result = cv2.bilateralFilter(img, n, sigmaColor, sigmaSpace)
     resultado = Image.fromarray(result.astype(np.uint8))
-    resultado.save('resultados/bilateral.bmp')
+    return resultado
 
 # bilateral('imagenes/escgaus.bmp')
 # mediana('imagenes/escgaus.bmp', 7)
@@ -128,24 +128,43 @@ def seven():
 
 
 def main():
+    bilateral('imagenes/checker.bmp', 2, 40, 40).save('resultados/checker_bilateral2.bmp')
+    bilateral('imagenes/checker.bmp', 3, 40, 40).save('resultados/checker_bilateral3.bmp')
+    bilateral('imagenes/checker.bmp', 5, 40, 40).save('resultados/checker_bilateral5.bmp')
+    bilateral('imagenes/checker.bmp', 7, 40, 40).save('resultados/checker_bilateral7.bmp')
+    bilateral('imagenes/checker.bmp', 9, 40, 40).save('resultados/checker_bilateral9.bmp')
 
-    mediana('imagenes/checker.bmp', 2).save('resultados/checker_mediana2.bmp')
-    mediana('imagenes/checker.bmp', 3).save('resultados/checker_mediana3.bmp')
-    mediana('imagenes/checker.bmp', 5).save('resultados/checker_mediana5.bmp')
-    mediana('imagenes/checker.bmp', 7).save('resultados/checker_mediana7.bmp')
-    mediana('imagenes/checker.bmp', 9).save('resultados/checker_mediana9.bmp')
+    bilateral('imagenes/escimp5.bmp', 2, 40, 40).save('resultados/escimp5_bilateral2.bmp')
+    bilateral('imagenes/escimp5.bmp', 3, 40, 40).save('resultados/escimp5_bilateral3.bmp')
+    bilateral('imagenes/escimp5.bmp', 5, 40, 40).save('resultados/escimp5_bilateral5.bmp')
+    bilateral('imagenes/escimp5.bmp', 7, 40, 40).save('resultados/escimp5_bilateral7.bmp')
+    bilateral('imagenes/escimp5.bmp', 9, 40, 40).save('resultados/escimp5_bilateral9.bmp')
 
-    mediana('imagenes/escimp5.bmp', 2).save('resultados/escimp5_mediana2.bmp')
-    mediana('imagenes/escimp5.bmp', 3).save('resultados/escimp5_mediana3.bmp')
-    mediana('imagenes/escimp5.bmp', 5).save('resultados/escimp5_mediana5.bmp')
-    mediana('imagenes/escimp5.bmp', 7).save('resultados/escimp5_mediana7.bmp')
-    mediana('imagenes/escimp5.bmp', 9).save('resultados/escimp5_mediana9.bmp')
+    bilateral('imagenes/escgaus.bmp', 2, 40, 40).save('resultados/escgaus_bilateral2.bmp')
+    bilateral('imagenes/escgaus.bmp', 3, 40, 40).save('resultados/escgaus_bilateral3.bmp')
+    bilateral('imagenes/escgaus.bmp', 5, 40, 40).save('resultados/escgaus_bilateral5.bmp')
+    bilateral('imagenes/escgaus.bmp', 7, 40, 40).save('resultados/escgaus_bilateral7.bmp')
+    bilateral('imagenes/escgaus.bmp', 9, 40, 40).save('resultados/escgaus_bilateral9.bmp')
 
-    mediana('imagenes/escgaus.bmp', 2).save('resultados/escgaus_mediana2.bmp')
-    mediana('imagenes/escgaus.bmp', 3).save('resultados/escgaus_mediana3.bmp')
-    mediana('imagenes/escgaus.bmp', 5).save('resultados/escgaus_mediana5.bmp')
-    mediana('imagenes/escgaus.bmp', 7).save('resultados/escgaus_mediana7.bmp')
-    mediana('imagenes/escgaus.bmp', 9).save('resultados/escgaus_mediana9.bmp')
+
+
+    # mediana('imagenes/checker.bmp', 2).save('resultados/checker_mediana2.bmp')
+    # mediana('imagenes/checker.bmp', 3).save('resultados/checker_mediana3.bmp')
+    # mediana('imagenes/checker.bmp', 5).save('resultados/checker_mediana5.bmp')
+    # mediana('imagenes/checker.bmp', 7).save('resultados/checker_mediana7.bmp')
+    # mediana('imagenes/checker.bmp', 9).save('resultados/checker_mediana9.bmp')
+    #
+    # mediana('imagenes/escimp5.bmp', 2).save('resultados/escimp5_mediana2.bmp')
+    # mediana('imagenes/escimp5.bmp', 3).save('resultados/escimp5_mediana3.bmp')
+    # mediana('imagenes/escimp5.bmp', 5).save('resultados/escimp5_mediana5.bmp')
+    # mediana('imagenes/escimp5.bmp', 7).save('resultados/escimp5_mediana7.bmp')
+    # mediana('imagenes/escimp5.bmp', 9).save('resultados/escimp5_mediana9.bmp')
+    #
+    # mediana('imagenes/escgaus.bmp', 2).save('resultados/escgaus_mediana2.bmp')
+    # mediana('imagenes/escgaus.bmp', 3).save('resultados/escgaus_mediana3.bmp')
+    # mediana('imagenes/escgaus.bmp', 5).save('resultados/escgaus_mediana5.bmp')
+    # mediana('imagenes/escgaus.bmp', 7).save('resultados/escgaus_mediana7.bmp')
+    # mediana('imagenes/escgaus.bmp', 9).save('resultados/escgaus_mediana9.bmp')
 
 
     # img1 = imread('imagenes/checker.bmp', True);

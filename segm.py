@@ -12,15 +12,15 @@ import maxflow
 import matplotlib.pyplot as plt
 import select_fg_bg_pixels as sel
 import cv2
+import math
 
 imgName='imagenes/horse.jpg'
 
 img = imread(imgName)
-im = imread(imgName, True)
 
+im = imread(imgName)
 # Marco el objeto y el fondo
 markedImgName = sel.select_fg_bg(imgName, img.shape,3)
-
 
 # Create the graph.
 g = maxflow.Graph[float]()
@@ -34,12 +34,26 @@ nodeids = g.add_grid_nodes(img.shape[:2])
 # Calcula los costes de los nodos no terminales del grafo
 
 # Estos son los costes de los vecinos horizontales
-exp_aff_h= 5
+
+#for i in range
+def aux(ip, iq, sigma):
+    return math.exp(-((np.linalg.norm(ip, 2)-np.linalg.norm(iq, 2))**2)/2*sigma**2)
+
+h, w =img.shape[:2]
+# Estos son los costes de los vecinos horizontales
+exp_aff_h = np.ones(img.shape[:2])
 # Estos son los costes de los vecinos verticales
-exp_aff_v= 2
+exp_aff_v = np.ones(img.shape[:2])
+for i in range(0, h):
+    for j in range(1, w):
+        exp_aff_h[i, j] = aux(img[i][j], img[i][j-1], 2.3)
+
+for i in range(1, h):
+    for j in range(0, w):
+        exp_aff_v[i, j] = aux(img[i][j], img[i-1][j], 2.3)
 # Construyo el grafo
-hor_struc=np.array([[0, 0, 0],[1, 0, 0],[0, 0, 0]])
-ver_struc=np.array([[0, 1, 0],[0, 0, 0],[0, 0, 0]])
+hor_struc=np.array([[0, 0, 0],[1, 0, 0],[0, 0, 0]])# mira vecino izquierdo
+ver_struc=np.array([[0, 1, 0],[0, 0, 0],[0, 0, 0]])# mira vecino de arriba
 
 g.add_grid_edges(nodeids, exp_aff_h, hor_struc,symmetric=True)
 g.add_grid_edges(nodeids, exp_aff_v, ver_struc,symmetric=True)
@@ -53,8 +67,8 @@ pts_bg = np.transpose(np.where(np.all(np.equal(markImg,(0,255,0)),2)))
 
 result = np.ones(img.shape[:2])
 r = np.ones(img.shape[:2])
-result = result * 51
-r = r * 51
+result = result * 50
+r = r * 50
 
 
 for i in range(0, len(pts_fg)):
