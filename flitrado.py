@@ -13,13 +13,15 @@ import timeit
 
 
 
-def caja(n, m, imgName, newImgName):
+def caja(imgName, n, m=None):
+    if m is None:
+        m = n
     img = imread(imgName, True);
     result = np.ones((n,m))
     result =  result /(n*m)
     result = ndimage.convolve(img, result, mode='constant', cval=1.0)
     resultado = Image.fromarray(result.astype(np.uint8))
-    resultado.save(newImgName)
+    return resultado
 
 def mediana(imgName, n):
     med = int(n*n/2)
@@ -118,9 +120,19 @@ def seven():
 
 # print kernel2d
 def main():
-    img1 = imread('imagenes/escimp5.bmp');
-    gaus(11,11,55,55, 'imagenes/escimp5.bmp', 'resultados/1111111.bmp');
-    resultado = Image.fromarray(ndimage.gaussian_filter(img1,11).astype(np.uint8)).save('resultados/2222222222222222222222.bmp')
+    caja('imagenes/escgaus.bmp', 3).save('resultados/escgaus_caja_3.png')
+    caja('imagenes/escgaus.bmp', 5).save('resultados/escgaus_caja_5.png')
+    caja('imagenes/escgaus.bmp', 7).save('resultados/escgaus_caja_7.png')
+    caja('imagenes/escgaus.bmp', 9).save('resultados/escgaus_caja_9.png')
+    caja('imagenes/escgaus.bmp', 11).save('resultados/escgaus_caja_11.png')
+    caja('imagenes/escgaus.bmp', 13).save('resultados/escgaus_caja_13.png')
+
+    caja('imagenes/escimp5.bmp', 3).save('resultados/escimp5_caja_3.png')
+    caja('imagenes/escimp5.bmp', 5).save('resultados/escimp5_caja_5.png')
+    caja('imagenes/escimp5.bmp', 7).save('resultados/escimp5_caja_7.png')
+    caja('imagenes/escimp5.bmp', 9).save('resultados/escimp5_caja_9.png')
+    caja('imagenes/escimp5.bmp', 11).save('resultados/escimp5_caja_11.png')
+    caja('imagenes/escimp5.bmp', 13).save('resultados/escimp5_caja_13.png')
 
 
     # bilateral('imagenes/checker.bmp', 2, 40, 40).save('resultados/checker_bilateral2.bmp')
@@ -176,16 +188,7 @@ def main():
     # gaus(1.4, 1.4, 7, 7, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_7.bmp');
     # gaus(1.8, 1.8, 9, 9, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_9.bmp');
     # gaus(2.2, 2.2, 11, 11, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_11.bmp');
-    # caja(3,3, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_3.bmp');
-    # caja(5, 5, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_5.bmp');
-    # caja(7, 7, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_7.bmp');
-    # caja(9, 9, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_9.bmp');
-    # caja(11, 11, 'imagenes/escgaus.bmp', 'resultados/escgaus_caja_11.bmp');
-    # caja(3,3, 'imagenes/escimp5.bmp', 'resultados/escimp5_caja_3.bmp');
-    # caja(5, 5, 'imagenes/escimp5.bmp', 'resultados/escimp5_caja_5.bmp');
-    # caja(7, 7, 'imagenes/escimp5.bmp', 'resultados/escimp5_caja_7.bmp');
-    # caja(9, 9, 'imagenes/escimp5.bmp', 'resultados/escimp5_caja_9.bmp');
-    # caja(11, 11, 'imagenes/escimp5.bmp', 'resultados/escimp5_caja_11.bmp');
+    #
     # img1 = imread('imagenes/escimp5.bmp', True);
     # img2 = imread('imagenes/escgaus.bmp', True);
     # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 3).astype(np.uint8))
