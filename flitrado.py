@@ -35,7 +35,6 @@ def mediana(imgName, n):
 
 def bilateral(im, n, sigmaColor, sigmaSpace):
     img = imread(im)
-    # res = np.ones(img.size)
     result = cv2.bilateralFilter(img, n, sigmaColor, sigmaSpace)
     resultado = Image.fromarray(result.astype(np.uint8))
     return resultado
@@ -57,10 +56,9 @@ def ex(x, n, sigma):
     return math.exp( (-1/2) * ( (x-((n-1)/2))/ sigma)**2 )
 ## Filtro gausiano
 
-def gaus(sigma_1, sigma_2, n, m, imgName, newImgName):
+def gaus(imgName, sigma_1, n):
     img = imread(imgName, True)
     ac = 0
-    rx = np.ones((n, m));
     med = n/2;
     x, y = np.mgrid[-n/2 + 1:n/2 + 1, -n/2 + 1:n/2 + 1]
     g = (1/(2*math.pi*(sigma_1**2))) *  np.exp(-((x**2 + y**2)/(2.0*sigma_1**2)))
@@ -68,7 +66,7 @@ def gaus(sigma_1, sigma_2, n, m, imgName, newImgName):
 
     result = ndimage.convolve(img, t, mode='constant', cval=1.0)
     resultado = Image.fromarray(result.astype(np.uint8))
-    resultado.save(newImgName)
+    return resultado
 
 
 def seven():
@@ -120,98 +118,109 @@ def seven():
 
 # print kernel2d
 def main():
-    caja('imagenes/escgaus.bmp', 3).save('resultados/escgaus_caja_3.png')
-    caja('imagenes/escgaus.bmp', 5).save('resultados/escgaus_caja_5.png')
-    caja('imagenes/escgaus.bmp', 7).save('resultados/escgaus_caja_7.png')
-    caja('imagenes/escgaus.bmp', 9).save('resultados/escgaus_caja_9.png')
-    caja('imagenes/escgaus.bmp', 11).save('resultados/escgaus_caja_11.png')
-    caja('imagenes/escgaus.bmp', 13).save('resultados/escgaus_caja_13.png')
-
-    caja('imagenes/escimp5.bmp', 3).save('resultados/escimp5_caja_3.png')
-    caja('imagenes/escimp5.bmp', 5).save('resultados/escimp5_caja_5.png')
-    caja('imagenes/escimp5.bmp', 7).save('resultados/escimp5_caja_7.png')
-    caja('imagenes/escimp5.bmp', 9).save('resultados/escimp5_caja_9.png')
-    caja('imagenes/escimp5.bmp', 11).save('resultados/escimp5_caja_11.png')
-    caja('imagenes/escimp5.bmp', 13).save('resultados/escimp5_caja_13.png')
-
-
-    # bilateral('imagenes/checker.bmp', 2, 40, 40).save('resultados/checker_bilateral2.bmp')
-    # bilateral('imagenes/checker.bmp', 3, 40, 40).save('resultados/checker_bilateral3.bmp')
-    # bilateral('imagenes/checker.bmp', 5, 40, 40).save('resultados/checker_bilateral5.bmp')
-    # bilateral('imagenes/checker.bmp', 7, 40, 40).save('resultados/checker_bilateral7.bmp')
-    # bilateral('imagenes/checker.bmp', 9, 40, 40).save('resultados/checker_bilateral9.bmp')
+    # caja('imagenes/escgaus.bmp', 3).save('resultados/escgaus_caja_3.png')
+    # caja('imagenes/escgaus.bmp', 5).save('resultados/escgaus_caja_5.png')
+    # caja('imagenes/escgaus.bmp', 7).save('resultados/escgaus_caja_7.png')
+    # caja('imagenes/escgaus.bmp', 9).save('resultados/escgaus_caja_9.png')
+    # caja('imagenes/escgaus.bmp', 11).save('resultados/escgaus_caja_11.png')
+    # caja('imagenes/escgaus.bmp', 13).save('resultados/escgaus_caja_13.png')
     #
-    # bilateral('imagenes/escimp5.bmp', 2, 40, 40).save('resultados/escimp5_bilateral2.bmp')
-    # bilateral('imagenes/escimp5.bmp', 3, 40, 40).save('resultados/escimp5_bilateral3.bmp')
-    # bilateral('imagenes/escimp5.bmp', 5, 40, 40).save('resultados/escimp5_bilateral5.bmp')
-    # bilateral('imagenes/escimp5.bmp', 7, 40, 40).save('resultados/escimp5_bilateral7.bmp')
-    # bilateral('imagenes/escimp5.bmp', 9, 40, 40).save('resultados/escimp5_bilateral9.bmp')
-    #
-    # bilateral('imagenes/escgaus.bmp', 2, 40, 40).save('resultados/escgaus_bilateral2.bmp')
-    # bilateral('imagenes/escgaus.bmp', 3, 40, 40).save('resultados/escgaus_bilateral3.bmp')
-    # bilateral('imagenes/escgaus.bmp', 5, 40, 40).save('resultados/escgaus_bilateral5.bmp')
-    # bilateral('imagenes/escgaus.bmp', 7, 40, 40).save('resultados/escgaus_bilateral7.bmp')
-    # bilateral('imagenes/escgaus.bmp', 9, 40, 40).save('resultados/escgaus_bilateral9.bmp')
+    # caja('imagenes/escimp5.bmp', 3).save('resultados/escimp5_caja_3.png')
+    # caja('imagenes/escimp5.bmp', 5).save('resultados/escimp5_caja_5.png')
+    # caja('imagenes/escimp5.bmp', 7).save('resultados/escimp5_caja_7.png')
+    # caja('imagenes/escimp5.bmp', 9).save('resultados/escimp5_caja_9.png')
+    # caja('imagenes/escimp5.bmp', 11).save('resultados/escimp5_caja_11.png')
+    # caja('imagenes/escimp5.bmp', 13).save('resultados/escimp5_caja_13.png')
+
+    # gaus('imagenes/escgaus.bmp', 0.6, 3).save('resultados/escgaus_gaus_3.png')
+    # gaus('imagenes/escgaus.bmp', 1, 5).save('resultados/escgaus_gaus_5.png')
+    # gaus('imagenes/escgaus.bmp', 1.4, 7).save('resultados/escgaus_gaus_7.png')
+    # gaus('imagenes/escgaus.bmp', 1.8, 9).save('resultados/escgaus_gaus_9.png')
+    # gaus('imagenes/escgaus.bmp', 2.2, 11).save('resultados/escgaus_gaus_11.png')
+    # gaus('imagenes/escgaus.bmp', 2.6, 13).save('resultados/escgaus_gaus_13.png')
+
+    # gaus('imagenes/escimp5.bmp', 0.6, 3).save('resultados/escimp5_gaus_3.png')
+    # gaus('imagenes/escimp5.bmp', 1, 5).save('resultados/escimp5_gaus_5.png')
+    # gaus('imagenes/escimp5.bmp', 1.4, 7).save('resultados/escimp5_gaus_7.png')
+    # gaus('imagenes/escimp5.bmp', 1.8, 9).save('resultados/escimp5_gaus_9.png')
+    # gaus('imagenes/escimp5.bmp', 2.2, 11).save('resultados/escimp5_gaus_11.png')
+    # gaus('imagenes/escimp5.bmp', 2.6, 13).save('resultados/escimp5_gaus_13.png')
 
 
 
-    # mediana('imagenes/checker.bmp', 2).save('resultados/checker_mediana2.bmp')
-    # mediana('imagenes/checker.bmp', 3).save('resultados/checker_mediana3.bmp')
-    # mediana('imagenes/checker.bmp', 5).save('resultados/checker_mediana5.bmp')
-    # mediana('imagenes/checker.bmp', 7).save('resultados/checker_mediana7.bmp')
-    # mediana('imagenes/checker.bmp', 9).save('resultados/checker_mediana9.bmp')
+    # caja('imagenes/checker.bmp', 3).save('resultados/checker_caja_3.png')
+    # caja('imagenes/checker.bmp', 5).save('resultados/checker_caja_5.png')
+    # caja('imagenes/checker.bmp', 7).save('resultados/checker_caja_7.png')
+    # caja('imagenes/checker.bmp', 9).save('resultados/checker_caja_9.png')
+    # caja('imagenes/checker.bmp', 11).save('resultados/checker_caja_13.png')
+    # caja('imagenes/checker.bmp', 15).save('resultados/checker_caja_15.png')
+    # caja('imagenes/checker.bmp', 17).save('resultados/checker_caja_17.png')
+    # caja('imagenes/checker.bmp', 19).save('resultados/checker_caja_19.png')
+    # caja('imagenes/checker.bmp', 21).save('resultados/checker_caja_21.png')
     #
-    # mediana('imagenes/escimp5.bmp', 2).save('resultados/escimp5_mediana2.bmp')
-    # mediana('imagenes/escimp5.bmp', 3).save('resultados/escimp5_mediana3.bmp')
-    # mediana('imagenes/escimp5.bmp', 5).save('resultados/escimp5_mediana5.bmp')
-    # mediana('imagenes/escimp5.bmp', 7).save('resultados/escimp5_mediana7.bmp')
-    # mediana('imagenes/escimp5.bmp', 9).save('resultados/escimp5_mediana9.bmp')
-    #
-    # mediana('imagenes/escgaus.bmp', 2).save('resultados/escgaus_mediana2.bmp')
-    # mediana('imagenes/escgaus.bmp', 3).save('resultados/escgaus_mediana3.bmp')
-    # mediana('imagenes/escgaus.bmp', 5).save('resultados/escgaus_mediana5.bmp')
-    # mediana('imagenes/escgaus.bmp', 7).save('resultados/escgaus_mediana7.bmp')
-    # mediana('imagenes/escgaus.bmp', 9).save('resultados/escgaus_mediana9.bmp')
+    # gaus('imagenes/checker.bmp', 0.6, 3).save('resultados/checker_gaus_3.png')
+    # gaus('imagenes/checker.bmp', 1, 5).save('resultados/checker_gaus_5.png')
+    # gaus('imagenes/checker.bmp', 1.4, 7).save('resultados/checker_gaus_7.png')
+    # gaus('imagenes/checker.bmp', 1.8, 9).save('resultados/checker_gaus_9.png')
+    # gaus('imagenes/checker.bmp', 2.2, 11).save('resultados/checker_gaus_11.png')
+    # gaus('imagenes/checker.bmp', 2.6, 13).save('resultados/checker_gaus_13.png')
+    # gaus('imagenes/checker.bmp', 3, 15).save('resultados/checker_gaus_15.png')
+    # gaus('imagenes/checker.bmp', 2.4, 17).save('resultados/checker_gaus_17.png')
+    # gaus('imagenes/checker.bmp', 3.8, 19).save('resultados/checker_gaus_19.png')
+    # gaus('imagenes/checker.bmp', 4.2, 21).save('resultados/checker_gaus_21.png')
 
 
-    # img1 = imread('imagenes/checker.bmp', True);
-    # gaus(6,6,30,30, 'imagenes/checker.bmp', 'resultados/checker_gaus30.bmp');
-    # caja(30,30, 'imagenes/checker.bmp', 'resultados/checker_caja30.bmp');
-    # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 6).astype(np.uint8))
-    # resultado.save('resultados/cheker_gausiana30.bmp')
-    # gaus(1, 1, 5, 5, 'imagenes/escgaus.bmp', 'resultados/escgaus_gaus_5.bmp');
-    # gaus(1.4, 1.4, 7, 7, 'imagenes/escgaus.bmp', 'resultados/escgaus_gaus_7.bmp');
-    # gaus(1.8, 1.8, 9, 9, 'imagenes/escgaus.bmp', 'resultados/escgaus_gaus_9.bmp');
-    # gaus(2.2, 2.2, 11, 11, 'imagenes/escgaus.bmp', 'resultados/escgaus_gaus_11.bmp');
-    # gaus(0.6, 0.6, 3,3, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_3.bmp');
-    # gaus(1, 1, 5, 5, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_5.bmp');
-    # gaus(1.4, 1.4, 7, 7, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_7.bmp');
-    # gaus(1.8, 1.8, 9, 9, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_9.bmp');
-    # gaus(2.2, 2.2, 11, 11, 'imagenes/escimp5.bmp', 'resultados/escimp5_gaus_11.bmp');
+    # mediana('imagenes/checker.bmp', 2).save('resultados/checker_mediana2.png')
+    # mediana('imagenes/checker.bmp', 3).save('resultados/checker_mediana3.png')
+    # mediana('imagenes/checker.bmp', 5).save('resultados/checker_mediana5.png')
+    # mediana('imagenes/checker.bmp', 7).save('resultados/checker_mediana7.png')
+    # mediana('imagenes/checker.bmp', 9).save('resultados/checker_mediana9.png')
+    # mediana('imagenes/checker.bmp', 11).save('resultados/checker_mediana11.png')
     #
-    # img1 = imread('imagenes/escimp5.bmp', True);
-    # img2 = imread('imagenes/escgaus.bmp', True);
-    # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 3).astype(np.uint8))
-    # resultado.save('resultados/gaus1.bmp')
-    # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 5).astype(np.uint8))
-    # resultado.save('resultados/gaus5.bmp')
-    # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 7).astype(np.uint8))
-    # resultado.save('resultados/gaus7.bmp')
-    # resultado = Image.fromarray(ndimage.gaussian_filter(img1, 9).astype(np.uint8))
-    # resultado.save('resultados/gaus9.bmp')
-    # resultado = Image.fromarray(ndimage.gaussian_filter(img1,11).astype(np.uint8))
-    # resultado.save('resultados/gaus11.bmp')
+    # mediana('imagenes/escimp5.bmp', 2).save('resultados/escimp5_mediana2.png')
+    # mediana('imagenes/escimp5.bmp', 3).save('resultados/escimp5_mediana3.png')
+    # mediana('imagenes/escimp5.bmp', 5).save('resultados/escimp5_mediana5.png')
+    # mediana('imagenes/escimp5.bmp', 7).save('resultados/escimp5_mediana7.png')
+    # mediana('imagenes/escimp5.bmp', 9).save('resultados/escimp5_mediana9.png')
+    # mediana('imagenes/escimp5.bmp', 11).save('resultados/escimp5_mediana11.png')
     #
-    #
-    #
+    # mediana('imagenes/escgaus.bmp', 2).save('resultados/escgaus_mediana2.png')
+    # mediana('imagenes/escgaus.bmp', 3).save('resultados/escgaus_mediana3.png')
+    # mediana('imagenes/escgaus.bmp', 5).save('resultados/escgaus_mediana5.png')
+    # mediana('imagenes/escgaus.bmp', 7).save('resultados/escgaus_mediana7.png')
+    # mediana('imagenes/escgaus.bmp', 9).save('resultados/escgaus_mediana9.png')
+    # mediana('imagenes/escgaus.bmp', 11).save('resultados/escgaus_mediana11.png')
 
-    # resultado = Image.fromarray(ndimage.gaussian_filter(img2, 5).astype(np.uint8))
-    # resultado.save('resultados/gausx5.bmp')
-    # resultado = Image.fromarray(ndimage.gaussian_filter(img2, 7).astype(np.uint8))
-    # resultado.save('resultados/gausx7.bmp')
-    # resultado = Image.fromarray(ndimage.gaussian_filter(img2, 9).astype(np.uint8))
-    # resultado.save('resultados/gausx9.bmp')
-    # resultado = Image.fromarray(ndimage.gaussian_filter(img2,11).astype(np.uint8))
-    # resultado.save('resultados/gausx11.bmp')
+    # 
+    # bilateral('imagenes/checker.bmp', 9, 300, 75).save('resultados/checker_bilateral75.png')
+    # bilateral('resultados/checker_bilateral75.png', 9, 300, 75).save('resultados/checker_bilateral75_2.png')
+    # bilateral('resultados/checker_bilateral75_2.png', 9, 300, 75).save('resultados/checker_bilateral75_3.png')
+    # bilateral('imagenes/checker.bmp', 9, 110, 110).save('resultados/checker_bilateral110.png')
+    # bilateral('resultados/checker_bilateral75.png', 9, 110, 110).save('resultados/checker_bilateral110_2.png')
+    # bilateral('resultados/checker_bilateral75_2.png', 9, 110, 110).save('resultados/checker_bilateral110_3.png')
+    #
+    # bilateral('imagenes/escimp5.bmp', 9, 75, 75).save('resultados/escimp5_bilateral75.png')
+    # bilateral('resultados/escimp5_bilateral75.png', 9, 75, 75).save('resultados/escimp5_bilateral75_2.png')
+    # bilateral('resultados/escimp5_bilateral75_2.png', 9, 75, 75).save('resultados/escimp5_bilateral75_3.png')
+    # bilateral('imagenes/escimp5.bmp', 9, 110, 110).save('resultados/escimp5_bilateral110.png')
+    # bilateral('resultados/escimp5_bilateral75.png', 9, 110, 110).save('resultados/escimp5_bilateral110_2.png')
+    # bilateral('resultados/escimp5_bilateral75_2.png', 9, 110, 110).save('resultados/escimp5_bilateral110_3.png')
+    #
+    # bilateral('imagenes/escimp5.bmp', 9, 50, 50).save('resultados/escimp5_bilateral50.png')
+    # bilateral('resultados/escimp5_bilateral75.png', 9, 50, 50).save('resultados/escimp5_bilateral50_2.png')
+    # bilateral('resultados/escimp5_bilateral75_2.png', 9, 50, 50).save('resultados/escimp5_bilateral50_3.png')
+    #
+    #
+    # bilateral('imagenes/escgaus.bmp', 9, 75, 75).save('resultados/escgaus_bilateral75.png')
+    # bilateral('resultados/escgaus_bilateral75.png', 9, 75, 75).save('resultados/escgaus_bilateral75_2.png')
+    # bilateral('resultados/escgaus_bilateral75_2.png', 9, 75, 75).save('resultados/escgaus_bilateral75_3.png')
+    # bilateral('imagenes/escgaus.bmp', 9, 110, 110).save('resultados/escgaus_bilateral110.png')
+    # bilateral('resultados/escgaus_bilateral75.png', 9, 110, 110).save('resultados/escgaus_bilateral110_2.png')
+    # bilateral('resultados/escgaus_bilateral75_2.png', 9, 110, 110).save('resultados/escgaus_bilateral110_3.png')
+
+
+
+
+
 
 main();
