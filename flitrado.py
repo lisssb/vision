@@ -54,29 +54,19 @@ def caja_convolve1(n, m):
 def ex(x, n, sigma):
     return math.exp( (-1/2) * ( (x-((n-1)/2))/ sigma)**2 )
 ## Filtro gausiano
+
 def gaus(sigma_1, sigma_2, n, m, imgName, newImgName):
     img = imread(imgName, True)
     ac = 0
-    rx = np.ones((1,n));
-    ry = np.ones((m, 1));
-
-
-    for i in range(0, n):
-        ac += ex(i, n, sigma_1)
-        rx[0][i] = ex(i, n, sigma_1) * ac**(-1)
-
-    ac = 0
-    for i in range(0, m):
-        ac += ex(i, m, sigma_2)
-        ry[i][0] = ex(i, m, sigma_2) * ac**(-1)
-
-    t = rx * ry;
-    t = t/ np.sum(t)
+    rx = np.ones((n, m));
+    med = n/2;
+    x, y = np.mgrid[-n/2 + 1:n/2 + 1, -n/2 + 1:n/2 + 1]
+    g = (1/(2*math.pi*(sigma_1**2))) *  np.exp(-((x**2 + y**2)/(2.0*sigma_1**2)))
+    t= g #/is a multiply by pi sigma I an getting the nromalized matriz
 
     result = ndimage.convolve(img, t, mode='constant', cval=1.0)
     resultado = Image.fromarray(result.astype(np.uint8))
     resultado.save(newImgName)
-
 
 
 def seven():
@@ -126,25 +116,30 @@ def seven():
 #     print(t1.timeit(1), "caja")
 #     print(t2.timeit(1), "1d")
 
-
+# print kernel2d
 def main():
-    bilateral('imagenes/checker.bmp', 2, 40, 40).save('resultados/checker_bilateral2.bmp')
-    bilateral('imagenes/checker.bmp', 3, 40, 40).save('resultados/checker_bilateral3.bmp')
-    bilateral('imagenes/checker.bmp', 5, 40, 40).save('resultados/checker_bilateral5.bmp')
-    bilateral('imagenes/checker.bmp', 7, 40, 40).save('resultados/checker_bilateral7.bmp')
-    bilateral('imagenes/checker.bmp', 9, 40, 40).save('resultados/checker_bilateral9.bmp')
+    img1 = imread('imagenes/escimp5.bmp');
+    gaus(11,11,55,55, 'imagenes/escimp5.bmp', 'resultados/1111111.bmp');
+    resultado = Image.fromarray(ndimage.gaussian_filter(img1,11).astype(np.uint8)).save('resultados/2222222222222222222222.bmp')
 
-    bilateral('imagenes/escimp5.bmp', 2, 40, 40).save('resultados/escimp5_bilateral2.bmp')
-    bilateral('imagenes/escimp5.bmp', 3, 40, 40).save('resultados/escimp5_bilateral3.bmp')
-    bilateral('imagenes/escimp5.bmp', 5, 40, 40).save('resultados/escimp5_bilateral5.bmp')
-    bilateral('imagenes/escimp5.bmp', 7, 40, 40).save('resultados/escimp5_bilateral7.bmp')
-    bilateral('imagenes/escimp5.bmp', 9, 40, 40).save('resultados/escimp5_bilateral9.bmp')
 
-    bilateral('imagenes/escgaus.bmp', 2, 40, 40).save('resultados/escgaus_bilateral2.bmp')
-    bilateral('imagenes/escgaus.bmp', 3, 40, 40).save('resultados/escgaus_bilateral3.bmp')
-    bilateral('imagenes/escgaus.bmp', 5, 40, 40).save('resultados/escgaus_bilateral5.bmp')
-    bilateral('imagenes/escgaus.bmp', 7, 40, 40).save('resultados/escgaus_bilateral7.bmp')
-    bilateral('imagenes/escgaus.bmp', 9, 40, 40).save('resultados/escgaus_bilateral9.bmp')
+    # bilateral('imagenes/checker.bmp', 2, 40, 40).save('resultados/checker_bilateral2.bmp')
+    # bilateral('imagenes/checker.bmp', 3, 40, 40).save('resultados/checker_bilateral3.bmp')
+    # bilateral('imagenes/checker.bmp', 5, 40, 40).save('resultados/checker_bilateral5.bmp')
+    # bilateral('imagenes/checker.bmp', 7, 40, 40).save('resultados/checker_bilateral7.bmp')
+    # bilateral('imagenes/checker.bmp', 9, 40, 40).save('resultados/checker_bilateral9.bmp')
+    #
+    # bilateral('imagenes/escimp5.bmp', 2, 40, 40).save('resultados/escimp5_bilateral2.bmp')
+    # bilateral('imagenes/escimp5.bmp', 3, 40, 40).save('resultados/escimp5_bilateral3.bmp')
+    # bilateral('imagenes/escimp5.bmp', 5, 40, 40).save('resultados/escimp5_bilateral5.bmp')
+    # bilateral('imagenes/escimp5.bmp', 7, 40, 40).save('resultados/escimp5_bilateral7.bmp')
+    # bilateral('imagenes/escimp5.bmp', 9, 40, 40).save('resultados/escimp5_bilateral9.bmp')
+    #
+    # bilateral('imagenes/escgaus.bmp', 2, 40, 40).save('resultados/escgaus_bilateral2.bmp')
+    # bilateral('imagenes/escgaus.bmp', 3, 40, 40).save('resultados/escgaus_bilateral3.bmp')
+    # bilateral('imagenes/escgaus.bmp', 5, 40, 40).save('resultados/escgaus_bilateral5.bmp')
+    # bilateral('imagenes/escgaus.bmp', 7, 40, 40).save('resultados/escgaus_bilateral7.bmp')
+    # bilateral('imagenes/escgaus.bmp', 9, 40, 40).save('resultados/escgaus_bilateral9.bmp')
 
 
 
