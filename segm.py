@@ -14,7 +14,7 @@ import select_fg_bg_pixels as sel
 import cv2
 import math
 
-imgName='imagenes/horse.jpg'
+imgName='imagenes/car.jpg'
 
 img = imread(imgName)
 
@@ -65,23 +65,23 @@ pts_fg = np.transpose(np.where(np.all(np.equal(markImg,(255,0,0)),2)))
 # Los marcados en verde representan el fondo
 pts_bg = np.transpose(np.where(np.all(np.equal(markImg,(0,255,0)),2)))
 
-result = np.ones(img.shape[:2])
-r = np.ones(img.shape[:2])
-result = result * 50
-r = r * 50
+obj = np.ones(img.shape[:2])
+fondo = np.ones(img.shape[:2])
+obj = obj * 50
+fondo = fondo * 50
 
 
 for i in range(0, len(pts_fg)):
-    result[pts_fg[i][0]][pts_fg[i][1]] = 0
-    r[pts_fg[i][0]][pts_fg[i][1]] = np.inf
+    obj[pts_fg[i][0]][pts_fg[i][1]] = np.inf
+    fondo[pts_fg[i][0]][pts_fg[i][1]] = 0
 
 for i in range(0, len(pts_bg)):
-    result[pts_bg[i][0]][pts_bg[i][1]] = np.inf
-    r[pts_bg[i][0]][pts_bg[i][1]] = 0
+    obj[pts_bg[i][0]][pts_bg[i][1]] = 0
+    fondo[pts_bg[i][0]][pts_bg[i][1]] = np.inf
 
 # Pesos de los nodos terminales
 
-g.add_grid_tedges(nodeids, r, result)
+g.add_grid_tedges(nodeids, obj, fondo)
 # g.add_grid_tedges(nodeids[:,  0], np.inf, 0)
 # # Sink node connected to rightmost non-terminal nodes.
 # g.add_grid_tedges(nodeids[:,  -1], 0, np.inf)
